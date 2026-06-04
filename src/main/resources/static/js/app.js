@@ -148,54 +148,86 @@ function loadReservation() {
     startCountdown(reservation.expiresAt);
 }
 
+//function startCountdown(expiresAt) {
+//
+//    const countdown = document.createElement("h3");
+//
+//    countdown.id = "countdown";
+//
+//    document.getElementById("reservation-container")
+//        .appendChild(countdown);
+//
+//    console.log("=================================");
+//    console.log("Countdown Started");
+//    console.log("expiresAt String:", expiresAt);
+//    console.log("Parsed Date:", new Date(expiresAt));
+//    console.log("=================================");
+//
+//    const timer = setInterval(() => {
+//
+//        const now = new Date().getTime();
+//        const expiry = new Date(expiresAt).getTime();
+//        const difference = expiry - now;
+//
+//        console.log("Now:", new Date(now));
+//        console.log("Expiry:", new Date(expiry));
+//        console.log("Now Millis:", now);
+//        console.log("Expiry Millis:", expiry);
+//        console.log("Difference:", difference);
+//
+//        if (difference <= 0) {
+//
+//            console.log("Reservation Expired");
+//
+//            clearInterval(timer);
+//
+//            countdown.innerHTML = "Reservation Expired";
+//
+//            return;
+//        }
+//
+//        const minutes = Math.floor(difference / (1000 * 60));
+//        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+//
+//        console.log(`Time Left: ${minutes}m ${seconds}s`);
+//
+//        countdown.innerHTML =
+//            `Time Left: ${minutes}m ${seconds}s`;
+//
+//    }, 1000);
+//}
 function startCountdown(expiresAt) {
 
-    const countdown = document.createElement("h3");
+       const countdown = document.createElement("h3");
+       countdown.id = "countdown";
 
-    countdown.id = "countdown";
+       document.getElementById("reservation-container")
+           .appendChild(countdown);
 
-    document.getElementById("reservation-container")
-        .appendChild(countdown);
+       // Add IST offset manually
+       const expiry = new Date(expiresAt).getTime() + (5.5 * 60 * 60 * 1000);
 
-    console.log("=================================");
-    console.log("Countdown Started");
-    console.log("expiresAt String:", expiresAt);
-    console.log("Parsed Date:", new Date(expiresAt));
-    console.log("=================================");
+       console.log("Original:", expiresAt);
+       console.log("Adjusted Expiry:", new Date(expiry));
 
-    const timer = setInterval(() => {
+       const timer = setInterval(() => {
 
-        const now = new Date().getTime();
-        const expiry = new Date(expiresAt).getTime();
-        const difference = expiry - now;
+           const now = Date.now();
+           const difference = expiry - now;
 
-        console.log("Now:", new Date(now));
-        console.log("Expiry:", new Date(expiry));
-        console.log("Now Millis:", now);
-        console.log("Expiry Millis:", expiry);
-        console.log("Difference:", difference);
+           if (difference <= 0) {
+               clearInterval(timer);
+               countdown.innerHTML = "Reservation Expired";
+               return;
+           }
 
-        if (difference <= 0) {
+           const minutes = Math.floor(difference / (1000 * 60));
+           const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            console.log("Reservation Expired");
+           countdown.innerHTML = `Time Left: ${minutes}m ${seconds}s`;
 
-            clearInterval(timer);
-
-            countdown.innerHTML = "Reservation Expired";
-
-            return;
-        }
-
-        const minutes = Math.floor(difference / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        console.log(`Time Left: ${minutes}m ${seconds}s`);
-
-        countdown.innerHTML =
-            `Time Left: ${minutes}m ${seconds}s`;
-
-    }, 1000);
-}
+       }, 1000);
+   }
 
 async function confirmReservation(reservationId) {
 

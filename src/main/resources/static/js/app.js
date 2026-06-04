@@ -157,13 +157,27 @@ function startCountdown(expiresAt) {
     document.getElementById("reservation-container")
         .appendChild(countdown);
 
+    console.log("=================================");
+    console.log("Countdown Started");
+    console.log("expiresAt String:", expiresAt);
+    console.log("Parsed Date:", new Date(expiresAt));
+    console.log("=================================");
+
     const timer = setInterval(() => {
 
         const now = new Date().getTime();
         const expiry = new Date(expiresAt).getTime();
         const difference = expiry - now;
 
+        console.log("Now:", new Date(now));
+        console.log("Expiry:", new Date(expiry));
+        console.log("Now Millis:", now);
+        console.log("Expiry Millis:", expiry);
+        console.log("Difference:", difference);
+
         if (difference <= 0) {
+
+            console.log("Reservation Expired");
 
             clearInterval(timer);
 
@@ -174,6 +188,8 @@ function startCountdown(expiresAt) {
 
         const minutes = Math.floor(difference / (1000 * 60));
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        console.log(`Time Left: ${minutes}m ${seconds}s`);
 
         countdown.innerHTML =
             `Time Left: ${minutes}m ${seconds}s`;

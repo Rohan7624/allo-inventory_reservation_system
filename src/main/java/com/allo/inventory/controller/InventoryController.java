@@ -13,6 +13,7 @@ import java.util.List;
 public class InventoryController {
 
     private final InventoryService inventoryService;
+    //
 
     @GetMapping
     public List<InventoryResponse>
